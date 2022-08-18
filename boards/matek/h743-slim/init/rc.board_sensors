@@ -2,6 +2,10 @@
 #
 # board specific sensors init
 #------------------------------------------------------------------------------
+# board variations
+# v1-   MPU6000, ICM20602
+# v1.5- MPU6000, ICM42605
+# v3-   ICM42688P, ICM42605
 
 board_adc start
 
@@ -12,8 +16,12 @@ then
 	icm20602 -R 12 -s start
 fi
 
-# Internal SPI bus MPU-6000
-mpu6000 -R 12 -s start
+# Internal SPI bus ICM-42688P
+if ! icm42688p -R 12 -s start
+then
+	# Internal SPI bus MPU-6000
+	mpu6000 -R 12 -s start
+fi
 
 # Internal baro
 dps310 -I start -a 118
